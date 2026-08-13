@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Deals by JM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar"><div class="logo">Daily Deals<small>by JM ♥</small></div>
+<nav>
+<button class="nav active" data-view="dashboard">⌂ <span>Dashboard</span></button><button class="nav" data-view="shop">⌕ <span>Shop All</span></button>
+<button class="nav" data-cat="Bags">▱ <span>Bags</span></button><button class="nav" data-cat="Wallets">▢ <span>Wallets</span></button><button class="nav" data-cat="Perfume">♢ <span>Perfume</span></button><button class="nav" data-cat="Shoes">⌁ <span>Shoes</span></button><button class="nav" data-cat="Vitamins">✧ <span>Vitamins</span></button><button class="nav" data-cat="Watches">◷ <span>Watches</span></button>
+<button class="nav" data-view="orders">▤ <span>My Orders</span></button><button class="nav" data-view="new">✦ <span>New Arrivals</span></button><button class="nav" data-view="sale">% <span>Sale Items</span></button><button class="nav" data-view="wishlist">♡ <span>Wishlist</span></button><button class="nav" data-view="profile">♙ <span>Profile</span></button><button class="nav" data-view="settings">⚙ <span>Settings</span></button>
+</nav><button class="nav logout" id="logout">↪ <span>Logout</span></button></aside>
+<main class="main"><header class="mobile"><button id="menu">☰</button><b>Daily Deals</b><button id="mobileCart">🛒</button></header><div id="page"></div></main>
+<aside class="cart"><div class="cart-title"><b>My Cart <em id="count">(0)</em></b><button id="cartClose">‹</button></div><div id="cartItems"></div><div class="summary"><p><span>Subtotal</span><b id="subtotal">₱0.00</b></p><p><span>Shipping</span><b>FREE</b></p><hr><p><strong>Total</strong><strong id="total">₱0.00</strong></p><button class="pink wide" id="checkout">Checkout</button></div><div class="trust"><div><b>♡ New & Authentic</b><small>Guaranteed original products</small></div><div><b>▱ Fast Shipping</b><small>Nationwide delivery</small></div><div><b>♙ Secure Payment</b><small>Your data is protected</small></div></div></aside>
+</div>
+<div class="modal hidden" id="modal"><div class="modal-box"><button class="x" id="close">×</button><h2>Add / Edit Product</h2><p class="muted">Upload and edit product pictures without changing the website code.</p>
+<div class="form"><label>Product name<input id="name"></label><label>Category<select id="category"><option>Bags</option><option>Wallets</option><option>Perfume</option><option>Shoes</option><option>Vitamins</option><option>Watches</option></select></label><label>Price<input id="price" type="number"></label><label>Sale price<input id="salePrice" type="number"></label><label class="full">Description<textarea id="description"></textarea></label><label class="full">Upload picture<input id="file" type="file" accept="image/*"></label></div>
+<div class="editor"><div class="preview"><img id="preview"></div><div><b>Picture editor</b><br><button class="tool" data-f="brightness(1.15)">Brighten</button><button class="tool" data-f="contrast(1.15)">Contrast</button><button class="tool" data-f="saturate(1.2)">Color</button><button class="tool" data-f="grayscale(1)">Mono</button><button class="tool" data-f="sepia(.2) saturate(1.15)">Warm</button><button class="tool" id="reset">Reset</button></div></div>
+<div class="checks"><label><input id="isNew" type="checkbox"> New Arrival</label><label><input id="isSale" type="checkbox"> Sale Item</label></div><button class="pink" id="save">Save Product</button></div></div>
+<script src="app.js"></script></body></html>
