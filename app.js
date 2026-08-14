@@ -475,26 +475,27 @@ function normalizeProduct(row) {
     name: row.name,
     category: row.category,
     price: Number(row.price || 0),
+
     salePrice:
       row.sale_price !== undefined
         ? row.sale_price === null
           ? null
           : Number(row.sale_price)
-        : row.salePrice !== undefined
-          ? row.salePrice === null
-            ? null
-            : Number(row.salePrice)
-          : null,
+        : null,
+
     description: row.description || '',
-    image: row.image || 'bag.jpg',
+
+    image: row.image || row.image_url || 'bag.jpg',
+
     new:
-      row.is_new !== undefined
-        ? !!row.is_new
-        : !!row.new,
+      row.is_new_arrival !== undefined
+        ? !!row.is_new_arrival
+        : false,
+
     sale:
       row.is_sale !== undefined
         ? !!row.is_sale
-        : !!row.sale
+        : false
   };
 }
 
@@ -502,15 +503,23 @@ function productToDatabase(product) {
   return {
     name: product.name,
     category: product.category,
-    price: product.price,
-    sale_price: product.salePrice || null,
+    price: Number(product.price || 0),
+    sale_price:
+      product.salePrice === null ||
+      product.salePrice === '' ||
+      product.salePrice === undefined
+        ? null
+        : Number(product.salePrice),
+
     description: product.description || '',
+
     image: product.image || 'bag.jpg',
-    is_new: !!product.new,
+
+    is_new_arrival: !!product.new,
+
     is_sale: !!product.sale
   };
 }
-
 async function loadProducts() {
   if (!supabase) {
     products = defaults;
