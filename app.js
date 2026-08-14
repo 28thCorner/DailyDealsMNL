@@ -1106,7 +1106,7 @@ async function saveProduct() {
       ).value
     );
 
-  const category =
+  const categoryValue =
     document.getElementById(
       'category'
     ).value;
@@ -1180,7 +1180,7 @@ async function saveProduct() {
           : crypto.randomUUID(),
 
       name,
-      category,
+      category: categoryValue, 
       price,
       salePrice:
         salePriceValue || null,
