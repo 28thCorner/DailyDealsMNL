@@ -1263,16 +1263,21 @@ async function saveProduct() {
     uploaded = '';
 
     if (filter === 'dashboard') {
-      dashboard();
-    } else if (filter === 'shop') {
-      shop();
-    } else if (filter === 'sale') {
-      sale();
-    } else if (filter === 'new') {
-      newArrivals();
-    } else {
-      category(filter);
-    }
+  dashboard();
+} else if (filter === 'shop') {
+  shop();
+} else if (filter === 'sale') {
+  sale();
+} else if (filter === 'new') {
+  newArrivals();
+} else {
+  listing(
+    filter,
+    products.filter(
+      p => p.category === filter
+    )
+  );
+}
 
     renderCart();
 
