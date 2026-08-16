@@ -942,14 +942,25 @@ function dashboard() {
 
 /* =========================================================
    PRODUCT CARD
+   Shows DESCRIPTION instead of CATEGORY
    ========================================================= */
 
 function card(p) {
+
   const sp =
     p.salePrice ||
     (p.sale
       ? Math.round(p.price * 0.7)
       : 0);
+
+  const image =
+    p.image ||
+    p.image_url ||
+    'bag.jpg';
+
+  const description =
+    p.description ||
+    'No description available.';
 
   return `
     <article class="product">
@@ -957,47 +968,56 @@ function card(p) {
       ${
         p.sale
           ? '<span class="badge">SALE</span>'
-          : p.new
+          : (p.new || p.isNewArrival)
             ? '<span class="badge">NEW</span>'
             : ''
       }
 
       <img
-        src="${p.image || 'bag.jpg'}"
+        src="${esc(image)}"
+        alt="${esc(p.name)}"
         onerror="this.src='bag.jpg'"
       >
 
       <div class="info">
 
-        <h3>${esc(p.name)}</h3>
+        <h3>
+          ${esc(p.name)}
+        </h3>
 
-        <p>${esc(p.category)}</p>
+        <!-- PRODUCT DESCRIPTION -->
+        <p
+          class="product-description"
+          style="
+            margin:4px 0 8px;
+            font-size:12px;
+            line-height:1.45;
+            color:#555;
+            min-height:34px;
+          "
+        >
+          ${esc(description)}
+        </p>
 
+        <!-- PRICE -->
         <span class="price">
           ${money(sp || p.price)}
 
           ${
             sp
-              ? `<span class="old">
-                   ${money(p.price)}
-                 </span>`
+              ? `
+                <span class="old">
+                  ${money(p.price)}
+                </span>
+              `
               : ''
           }
         </span>
 
-        <!-- ADD TO CART -->
-        <button
-          type="button"
-          class="add product-add"
-          data-product-id="${esc(String(p.id))}"
-        >
-          + Add
-        </button>
-
+        <!-- OWNER EDIT BUTTON -->
         ${
           isOwner
             ? `
-              <!-- EDIT PRODUCT -->
               <button
                 type="button"
                 class="add product-edit"
@@ -1010,10 +1030,21 @@ function card(p) {
             : ''
         }
 
+        <!-- ADD TO CART -->
+        <button
+          type="button"
+          class="add product-add"
+          data-product-id="${esc(String(p.id))}"
+        >
+          + Add
+        </button>
+
       </div>
+
     </article>
   `;
 }
+
 /* =========================================================
    PRODUCT LIST
    ========================================================= */
