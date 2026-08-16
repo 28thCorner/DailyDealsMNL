@@ -30,3 +30,13 @@
   margin-top: 15px;
   font-size: 13px;
 }
+
+/* New Arrivals image - show the entire image */
+.promo.new img {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
