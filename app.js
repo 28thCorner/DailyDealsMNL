@@ -794,7 +794,7 @@ function dashboard() {
         </button>
 
         <img
-          src="new_shoes.jpg"
+          src="new_arrivals.jpg"
           alt="New Arrivals"
           style="
             position:absolute;
