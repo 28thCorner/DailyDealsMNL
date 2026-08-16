@@ -91,23 +91,6 @@ const brands =
   'Adidas|ALDO|ANNE KLEIN|BEVERLY HILLS POLO CLUB|Calvin Klein|Champion|COLE HAAN|DKNY|GAP|GUESS|HEAD|Herschel|HUGO|IZOD|JORDAN|Juicy Couture|KARL LAGERFELD|Kate Spade|Kipling|LACOSTE|Levi’s|MARC JACOBS|MICHAEL KORS|Nanette Lepore|NAUTICA|NIKE|NINE WEST|Paris Hilton|Penguin|PERRY ELLIS|PUMA|RALPH LAUREN|Reebok|STEVE MADDEN|TED BAKER|TOMMY HILFIGER|TRUE RELIGION|U.S POLO ASSN.|VAN HEUSEN|WRANGLER|XOXO'
     .split('|');
 
-let products = [];
-let cart =
-  JSON.parse(localStorage.getItem('ddCart') || 'null') ||
-  [
-    { productId: 1, qty: 2 },
-    { productId: 2, qty: 1 },
-    { productId: 3, qty: 1 }
-  ];
-
-let filter = 'dashboard';
-let editId = null;
-let uploaded = '';
-
-let currentUser = null;
-let isOwner = false;
-let supabase = null;
-
 const page = document.getElementById('page');
 
 const money = n =>
