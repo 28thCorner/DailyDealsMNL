@@ -4,33 +4,31 @@
    ========================================================= */
 
 .disclaimer {
-  margin: 50px 0 30px;
-  padding: 28px 30px;
-  border-top: 1px solid #ead7df;
-  border-bottom: 1px solid #ead7df;
+  margin: 35px 0 20px;
+  padding: 22px 25px;
   text-align: center;
-  background: #fff9fb;
+  background: #fff8fb;
+  border: 1px solid #f0dce5;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .disclaimer h3 {
-  margin: 0 0 14px;
-  font-size: 16px;
+  margin: 0 0 12px;
+  font-size: 14px;
   letter-spacing: 1px;
 }
 
 .disclaimer p {
-  margin: 7px 0;
-  font-size: 13px;
-  line-height: 1.6;
-  color: #666;
+  margin: 5px 0;
 }
 
 .disclaimer strong {
   display: block;
-  margin-top: 15px;
-  font-size: 13px;
+  margin-top: 10px;
+  font-size: 12px;
 }
-
 /* New Arrivals - keep text clear and center the image */
 .promo.new {
   position: relative;
@@ -65,8 +63,8 @@
   object-fit: contain;
   object-position: center;
 
-  /* =========================================================
-   FLASH SALE - IMAGE SLIDESHOW
+/* =========================================================
+   FLASH SALE IMAGE
    ========================================================= */
 
 .promo.sale {
@@ -74,53 +72,69 @@
   overflow: hidden;
 }
 
-/* Slideshow container */
-.promo.sale .sale-slideshow {
+/* Keep the text and button above the image */
+.promo.sale h3,
+.promo.sale p,
+.promo.sale .shopbtn {
+  position: relative;
+  z-index: 5;
+}
+
+/* Flash sale image area */
+.promo.sale .flash-sale-image {
   position: absolute;
-  top: 0;
+
   right: 0;
+  top: 0;
 
   width: 52%;
   height: 100%;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   overflow: hidden;
-  z-index: 1;
+
+  z-index: 2;
 }
 
-/* Every sale image starts completely hidden */
-.promo.sale .sale-slideshow .sale-slide {
-  position: absolute !important;
-
-  top: 0 !important;
-  left: 0 !important;
-  right: auto !important;
-  bottom: auto !important;
+/* ONLY ONE image exists here */
+.promo.sale .flash-sale-image img {
+  position: relative !important;
 
   width: 100% !important;
   height: 100% !important;
 
-  max-width: none !important;
-  max-height: none !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
 
   object-fit: contain !important;
-  object-position: center center !important;
+  object-position: center !important;
 
   margin: 0 !important;
   padding: 0 !important;
 
-  opacity: 0 !important;
-  visibility: hidden !important;
+  right: auto !important;
+  left: auto !important;
+  top: auto !important;
+  bottom: auto !important;
 
-  z-index: 1 !important;
+  opacity: 1;
 
-  transition: opacity 0.6s ease-in-out !important;
-
-  pointer-events: none;
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
 }
 
-/* ONLY the active image is visible */
-.promo.sale .sale-slideshow .sale-slide.active {
-  opacity: 1 !important;
-  visibility: visible !important;
-  z-index: 2 !important;
+/* Fade out */
+.promo.sale .flash-sale-image img.flash-hidden {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+/* Fade in */
+.promo.sale .flash-sale-image img.flash-visible {
+  opacity: 1;
+  transform: scale(1);
 }
