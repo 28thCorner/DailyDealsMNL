@@ -17,6 +17,19 @@ const OWNER_USER_ID = '49287653-4b49-4eb8-9d92-e41986dc1434';
 const PRODUCTS_TABLE = "products";
 const STORAGE_BUCKET = "products";
 
+let supabase = null;
+let currentUser = null;
+let isOwner = false;
+
+let products = [];
+let cart = JSON.parse(localStorage.getItem("ddCart") || "null") || [
+  { productId: 1, qty: 2 },
+  { productId: 2, qty: 1 },
+  { productId: 3, qty: 1 }
+];
+
+let filter = "dashboard";
+let editId = null;
 let uploaded = "";
 
 const defaults = [
