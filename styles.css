@@ -65,8 +65,8 @@
   object-fit: contain;
   object-position: center;
 
-   /* =========================================================
-   FLASH SALE SLIDESHOW
+  /* =========================================================
+   FLASH SALE - IMAGE SLIDESHOW
    ========================================================= */
 
 .promo.sale {
@@ -74,49 +74,53 @@
   overflow: hidden;
 }
 
-.promo.sale h3,
-.promo.sale p,
-.promo.sale .shopbtn {
-  position: relative;
-  z-index: 5;
-}
-
-.sale-slideshow {
+/* Slideshow container */
+.promo.sale .sale-slideshow {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
+
   width: 52%;
   height: 100%;
+
   overflow: hidden;
-  z-index: 2;
+  z-index: 1;
 }
 
-.sale-slide {
+/* Every sale image starts completely hidden */
+.promo.sale .sale-slideshow .sale-slide {
   position: absolute !important;
-  top: 0;
-  right: 0;
+
+  top: 0 !important;
+  left: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+
   width: 100% !important;
   height: 100% !important;
 
+  max-width: none !important;
+  max-height: none !important;
+
   object-fit: contain !important;
-  object-position: center;
+  object-position: center center !important;
 
-  opacity: 0;
-  visibility: hidden;
+  margin: 0 !important;
+  padding: 0 !important;
 
-  transition:
-    opacity 0.45s ease-in-out,
-    transform 0.45s ease-in-out;
+  opacity: 0 !important;
+  visibility: hidden !important;
 
-  transform: scale(1.03);
+  z-index: 1 !important;
+
+  transition: opacity 0.6s ease-in-out !important;
 
   pointer-events: none;
 }
 
-.sale-slide.active {
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1);
-}
-  z-index: 1;
+/* ONLY the active image is visible */
+.promo.sale .sale-slideshow .sale-slide.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 2 !important;
 }
