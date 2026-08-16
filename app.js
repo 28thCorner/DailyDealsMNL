@@ -764,30 +764,31 @@ function startSaleSlideshow() {
     saleSlideTimer = null;
   }
 
-  const slides = document.querySelectorAll(
-    '#saleSlideshow .sale-slide'
-  );
+  const slideshow = document.getElementById("saleSlideshow");
 
-  if (slides.length <= 1) {
-    return;
-  }
+  if (!slideshow) return;
+
+  const slides = slideshow.querySelectorAll(".sale-slide");
+
+  if (slides.length <= 1) return;
 
   let current = 0;
 
+  slides.forEach((slide, index) => {
+    slide.classList.toggle("active", index === 0);
+  });
+
   saleSlideTimer = setInterval(() => {
-    if (!document.getElementById('saleSlideshow')) {
-      clearInterval(saleSlideTimer);
-      saleSlideTimer = null;
-      return;
-    }
+    const currentSlide = slides[current];
 
-    slides[current].classList.remove('active');
+    currentSlide.classList.remove("active");
 
-    current =
-      (current + 1) % slides.length;
+    current = (current + 1) % slides.length;
 
-    slides[current].classList.add('active');
+    slides[current].classList.add("active");
   }, 1800);
+   updateOwnerInterface();
+startSaleSlideshow();
 }
 /* =========================================================
    PRODUCT CARD
