@@ -617,179 +617,342 @@ async function uploadProductImage(file) {
    ========================================================= */
 
 function dashboard() {
+
+  /* Stop any previous Flash Sale animation */
+  if (window.ddSaleFlashTimer) {
+    clearInterval(window.ddSaleFlashTimer);
+    window.ddSaleFlashTimer = null;
+  }
+
+  /* Get all products marked as Sale */
+  const saleItems = products.filter(p => p.sale && p.image);
+
+  /* Use sale_bag.jpg only if there are no Sale products */
+  const saleImages = saleItems.length
+    ? saleItems.map(p => p.image)
+    : ['sale_bag.jpg'];
+
   page.innerHTML = `
     <section class="hero">
       <h1>Style Meets<br>Great Deals</h1>
-      <p>Authentic Brands. Amazing Prices.</p>
-      <button class="pink" onclick="shop()">
+
+      <p>
+        Authentic Brands. Amazing Prices.
+      </p>
+
+      <button
+        class="pink"
+        onclick="shop()"
+      >
         Shop Now →
       </button>
     </section>
 
+
+    <!-- =====================================================
+         SHOP BY CATEGORY
+         ===================================================== -->
+
     <div class="section-head">
       <h2>Shop by Category</h2>
-      <button class="view" onclick="shop()">
+
+      <button
+        class="view"
+        onclick="shop()"
+      >
         View All →
       </button>
     </div>
 
+
     <div class="cats">
+
       ${cats
         .map(
           x => `
-          <button
-            class="cat"
-            onclick="category('${x[0]}')"
-          >
-            <img
-              src="${x[1]}"
-              onerror="this.src='bag.jpg'"
+            <button
+              class="cat"
+              onclick="category('${x[0]}')"
             >
-            ${x[0]}
-          </button>
-        `
+              <img
+                src="${x[1]}"
+                onerror="this.src='bag.jpg'"
+              >
+
+              ${x[0]}
+            </button>
+          `
         )
         .join('')}
+
     </div>
 
+
+    <!-- =====================================================
+         PROMOTIONAL BANNERS
+         ===================================================== -->
+
     <div class="promos">
-     <div class="promo sale">
-  <h3>FLASH SALE ⚡</h3>
-  <p>Up to 70% OFF • Limited time only!</p>
 
-  <button
-    class="shopbtn"
-    onclick="sale()"
-  >
-    Shop Now
-  </button>
 
-  <div class="sale-slideshow" id="saleSlideshow">
-    ${
-      products.filter(p => p.sale).length
-        ? products
-            .filter(p => p.sale)
-            .map(
-              (p, index) => `
-                <img
-                  class="sale-slide ${index === 0 ? 'active' : ''}"
-                  src="${p.image || 'bag.jpg'}"
-                  alt="${esc(p.name)}"
-                  onerror="this.src='bag.jpg'"
-                >
-              `
-            )
-            .join('')
-        : `
+      <!-- ===================================================
+           FLASH SALE
+           =================================================== -->
+
+      <div
+        class="promo sale"
+        style="
+          position:relative;
+          overflow:hidden;
+        "
+      >
+
+        <h3>
+          FLASH SALE ⚡
+        </h3>
+
+        <p>
+          Up to 70% OFF • Limited time only!
+        </p>
+
+        <button
+          class="shopbtn"
+          onclick="sale()"
+        >
+          Shop Now
+        </button>
+
+
+        <!--
+          IMPORTANT:
+          There is ONLY ONE image element here.
+
+          We change its src using JavaScript instead
+          of putting multiple images on top of each other.
+        -->
+
+        <div
+          id="saleFlashStage"
+          style="
+            position:absolute;
+            right:0;
+            bottom:0;
+            width:58%;
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            overflow:hidden;
+          "
+        >
+
           <img
-            class="sale-slide active"
-            src="sale_bag.jpg"
-            alt="Flash Sale"
+            id="saleFlashImage"
+            src="${esc(saleImages[0])}"
+            alt="Sale Item"
+            style="
+              width:100%;
+              height:100%;
+              object-fit:contain;
+              display:block;
+              opacity:1;
+              transition:opacity .25s ease;
+            "
+            onerror="this.src='sale_bag.jpg'"
           >
-        `
-    }
-  </div>
-</div>
 
-      <div class="promo new">
-        <h3>New Arrivals ♥</h3>
-        <p>Fresh styles you'll love.</p>
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           NEW ARRIVALS
+           =================================================== -->
+
+      <div
+        class="promo new"
+        style="
+          position:relative;
+          overflow:hidden;
+        "
+      >
+
+        <h3>
+          New Arrivals ♥
+        </h3>
+
+        <p>
+          Fresh styles you'll love.
+        </p>
+
         <button
           class="shopbtn"
           onclick="newArrivals()"
         >
           Discover Now
         </button>
-        <img src="new_arrivals.jpg" alt="New Arrivals">
+
+        <img
+          src="new_shoes.jpg"
+          alt="New Arrivals"
+          style="
+            position:absolute;
+            right:0;
+            bottom:0;
+            width:58%;
+            height:100%;
+            object-fit:contain;
+          "
+          onerror="this.src='bag.jpg'"
+        >
+
       </div>
+
     </div>
 
+
+    <!-- =====================================================
+         POPULAR BRANDS
+         ===================================================== -->
+
     <section class="brands">
-      <h2>CHOOSE FROM POPULAR BRANDS</h2>
+
+      <h2>
+        CHOOSE FROM POPULAR BRANDS
+      </h2>
+
       <div class="under"></div>
 
-            <div class="brandgrid">
+      <div class="brandgrid">
+
         ${brands
           .map(
-            b => `<div class="brand">${esc(b)}</div>`
+            b => `
+              <div class="brand">
+                ${esc(b)}
+              </div>
+            `
           )
           .join('')}
+
       </div>
+
     </section>
+
 
     <!-- =====================================================
          DISCLAIMER
          ===================================================== -->
 
-    <section class="disclaimer">
+    <section
+      class="disclaimer"
+      style="
+        margin:40px 0 25px;
+        padding:24px 25px;
+        text-align:center;
+        background:#fff8fb;
+        border:1px solid #f0dce5;
+        border-radius:12px;
+        line-height:1.7;
+      "
+    >
 
-      <h3>✨ DISCLAIMER ✨</h3>
+      <h3
+        style="
+          margin:0 0 12px;
+          font-size:15px;
+          letter-spacing:1px;
+        "
+      >
+        ✨ DISCLAIMER ✨
+      </h3>
 
-      <p>
-        We are not affiliated with or endorsed by any brands
-        posted on this site.
+      <p
+        style="
+          margin:5px 0;
+          font-size:11px;
+        "
+      >
+        We are not affiliated with or endorsed by any brands posted on this site.
       </p>
 
-      <p>
-        All trademarks, logos, and brand names belong to
-        their respective owners.
+      <p
+        style="
+          margin:5px 0;
+          font-size:11px;
+        "
+      >
+        All trademarks, logos, and brand names belong to their respective owners.
       </p>
 
-      <p>
+      <p
+        style="
+          margin:5px 0;
+          font-size:11px;
+        "
+      >
         Personally bought from US, Canada and Japan.
       </p>
 
-      <strong>
+      <strong
+        style="
+          display:block;
+          margin-top:10px;
+          font-size:12px;
+        "
+      >
         🛍️ Independent Reseller
       </strong>
 
     </section>
   `;
 
-    updateOwnerInterface();
 
-  startSaleSlideshow();
-}
+  /* =========================================================
+     FLASH SALE IMAGE ANIMATION
+     ========================================================= */
 
-/* =========================================================
-   FLASH SALE SLIDESHOW
-   Uses all products marked as Sale Item
-   ========================================================= */
+  const flashImage =
+    document.getElementById('saleFlashImage');
 
-let saleSlideTimer = null;
+  if (flashImage && saleImages.length > 1) {
 
-function startSaleSlideshow() {
-  if (saleSlideTimer) {
-    clearInterval(saleSlideTimer);
-    saleSlideTimer = null;
+    let saleIndex = 0;
+
+    window.ddSaleFlashTimer = setInterval(() => {
+
+      /* Fade the current image out */
+      flashImage.style.opacity = '0';
+
+      setTimeout(() => {
+
+        saleIndex =
+          (saleIndex + 1) % saleImages.length;
+
+        /*
+          Change the SAME image element.
+
+          This is what prevents overlapping images.
+        */
+
+        flashImage.src =
+          saleImages[saleIndex];
+
+        flashImage.style.opacity = '1';
+
+      }, 250);
+
+    }, 1800);
+
   }
 
-  const slideshow = document.getElementById("saleSlideshow");
 
-  if (!slideshow) return;
+  /* Update owner-only buttons */
+  updateOwnerInterface();
 
-  const slides = slideshow.querySelectorAll(".sale-slide");
-
-  if (slides.length <= 1) return;
-
-  let current = 0;
-
-  slides.forEach((slide, index) => {
-    slide.classList.toggle("active", index === 0);
-  });
-
-  saleSlideTimer = setInterval(() => {
-    const currentSlide = slides[current];
-
-    currentSlide.classList.remove("active");
-
-    current = (current + 1) % slides.length;
-
-    slides[current].classList.add("active");
-  }, 1800);
-   updateOwnerInterface();
-startSaleSlideshow();
 }
+
 /* =========================================================
    PRODUCT CARD
    ========================================================= */
