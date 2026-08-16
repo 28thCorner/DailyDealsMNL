@@ -64,5 +64,59 @@
   height: 92%;
   object-fit: contain;
   object-position: center;
+
+   /* =========================================================
+   FLASH SALE SLIDESHOW
+   ========================================================= */
+
+.promo.sale {
+  position: relative;
+  overflow: hidden;
+}
+
+.promo.sale h3,
+.promo.sale p,
+.promo.sale .shopbtn {
+  position: relative;
+  z-index: 5;
+}
+
+.sale-slideshow {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 52%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.sale-slide {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
+  object-position: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.45s ease-in-out,
+    transform 0.45s ease-in-out;
+
+  transform: scale(1.03);
+
+  pointer-events: none;
+}
+
+.sale-slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
   z-index: 1;
 }
