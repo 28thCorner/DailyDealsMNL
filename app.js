@@ -653,17 +653,43 @@ function dashboard() {
     </div>
 
     <div class="promos">
-      <div class="promo sale">
-        <h3>FLASH SALE ⚡</h3>
-        <p>Up to 40% OFF • Limited time only!</p>
-        <button
-          class="shopbtn"
-          onclick="sale()"
-        >
-          Shop Now
-        </button>
-        <img src="sale_bag.jpg">
-      </div>
+     <div class="promo sale">
+  <h3>FLASH SALE ⚡</h3>
+  <p>Up to 70% OFF • Limited time only!</p>
+
+  <button
+    class="shopbtn"
+    onclick="sale()"
+  >
+    Shop Now
+  </button>
+
+  <div class="sale-slideshow" id="saleSlideshow">
+    ${
+      products.filter(p => p.sale).length
+        ? products
+            .filter(p => p.sale)
+            .map(
+              (p, index) => `
+                <img
+                  class="sale-slide ${index === 0 ? 'active' : ''}"
+                  src="${p.image || 'bag.jpg'}"
+                  alt="${esc(p.name)}"
+                  onerror="this.src='bag.jpg'"
+                >
+              `
+            )
+            .join('')
+        : `
+          <img
+            class="sale-slide active"
+            src="sale_bag.jpg"
+            alt="Flash Sale"
+          >
+        `
+    }
+  </div>
+</div>
 
       <div class="promo new">
         <h3>New Arrivals ♥</h3>
@@ -720,9 +746,49 @@ function dashboard() {
     </section>
   `;
 
-  updateOwnerInterface();
+    updateOwnerInterface();
+
+  startSaleSlideshow();
 }
 
+/* =========================================================
+   FLASH SALE SLIDESHOW
+   Uses all products marked as Sale Item
+   ========================================================= */
+
+let saleSlideTimer = null;
+
+function startSaleSlideshow() {
+  if (saleSlideTimer) {
+    clearInterval(saleSlideTimer);
+    saleSlideTimer = null;
+  }
+
+  const slides = document.querySelectorAll(
+    '#saleSlideshow .sale-slide'
+  );
+
+  if (slides.length <= 1) {
+    return;
+  }
+
+  let current = 0;
+
+  saleSlideTimer = setInterval(() => {
+    if (!document.getElementById('saleSlideshow')) {
+      clearInterval(saleSlideTimer);
+      saleSlideTimer = null;
+      return;
+    }
+
+    slides[current].classList.remove('active');
+
+    current =
+      (current + 1) % slides.length;
+
+    slides[current].classList.add('active');
+  }, 1800);
+}
 /* =========================================================
    PRODUCT CARD
    ========================================================= */
