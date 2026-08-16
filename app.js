@@ -655,7 +655,7 @@ function dashboard() {
     <div class="promos">
       <div class="promo sale">
         <h3>FLASH SALE ⚡</h3>
-        <p>Up to 70% OFF • Limited time only!</p>
+        <p>Up to 40% OFF • Limited time only!</p>
         <button
           class="shopbtn"
           onclick="sale()"
@@ -682,13 +682,41 @@ function dashboard() {
       <h2>CHOOSE FROM POPULAR BRANDS</h2>
       <div class="under"></div>
 
-      <div class="brandgrid">
+            <div class="brandgrid">
         ${brands
           .map(
             b => `<div class="brand">${esc(b)}</div>`
           )
           .join('')}
       </div>
+    </section>
+
+    <!-- =====================================================
+         DISCLAIMER
+         ===================================================== -->
+
+    <section class="disclaimer">
+
+      <h3>✨ DISCLAIMER ✨</h3>
+
+      <p>
+        We are not affiliated with or endorsed by any brands
+        posted on this site.
+      </p>
+
+      <p>
+        All trademarks, logos, and brand names belong to
+        their respective owners.
+      </p>
+
+      <p>
+        Personally bought from US, Canada and Japan.
+      </p>
+
+      <strong>
+        🛍️ Independent Reseller
+      </strong>
+
     </section>
   `;
 
