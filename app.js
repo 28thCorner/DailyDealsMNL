@@ -14,6 +14,25 @@ const SUPABASE_PUBLISHABLE_KEY =
 */
 const OWNER_USER_ID = '49287653-4b49-4eb8-9d92-e41986dc1434';
 
+const PRODUCTS_TABLE = "products";
+const STORAGE_BUCKET = "products";
+
+let supabase = null;
+let currentUser = null;
+let isOwner = false;
+
+let products = [];
+let cart = JSON.parse(localStorage.getItem("ddCart") || "null") || [
+  { productId: 1, qty: 2 },
+  { productId: 2, qty: 1 },
+  { productId: 3, qty: 1 }
+];
+
+let filter = "dashboard";
+let editId = null;
+let uploadedFile = null;
+let uploadedPreview = "";
+
 const defaults = [
   {
     id: 1,
@@ -83,7 +102,7 @@ const cats = [
 // Carol, Alexis Bendel, Karen Neuburger, DCSHOECOUSA,
 // Stone Mountain USA, Vera Wang, Escada, planetGOLD, White Mountain.
 const brands =
-  'adidas|ALDO|ANNE KLEIN|BEVERLY HILLS POLO CLUB|Calvin Klein|Champion|COLE HAAN|DKNY|GAP|GUESS|HEAD|Herschel|HUGO|IZOD|JORDAN|Juicy Couture|KARL LAGERFELD|kate spade|kipling|LACOSTE|Levi’s|MARC JACOBS|MICHAEL KORS|nanette lepore|NAUTICA|NIKE|NINE WEST|Paris Hilton|Penguin|PERRY ELLIS|PUMA|RALPH LAUREN|Reebok|STEVE MADDEN|TED BAKER|TOMMY HILFIGER|TRUE RELIGION|U.S POLO ASSN.|VAN HEUSEN|WRANGLER|XOXO'
+  'Adidas|ALDO|ANNE KLEIN|BEVERLY HILLS POLO CLUB|Calvin Klein|Champion|COLE HAAN|DKNY|GAP|GUESS|HEAD|Herschel|HUGO|IZOD|JORDAN|Juicy Couture|KARL LAGERFELD|Kate Spade|Kipling|LACOSTE|Levi’s|MARC JACOBS|MICHAEL KORS|Nanette Lepore|NAUTICA|NIKE|NINE WEST|Paris Hilton|Penguin|PERRY ELLIS|PUMA|RALPH LAUREN|Reebok|STEVE MADDEN|TED BAKER|TOMMY HILFIGER|TRUE RELIGION|U.S POLO ASSN.|VAN HEUSEN|WRANGLER|XOXO'
     .split('|');
 
 let products = [];
@@ -417,34 +436,20 @@ async function logout() {
    ========================================================= */
 
 function updateOwnerInterface() {
-  const logoutButton =
-    document.getElementById('logout');
+  const addButtons = document.querySelectorAll(".add-product");
 
-  if (logoutButton) {
-    if (currentUser) {
-      logoutButton.innerHTML =
-        '↪ <span>Logout</span>';
-    } else {
-      logoutButton.innerHTML =
-        '♙ <span>Owner Login</span>';
-    }
-  }
-
-  document
-    .querySelectorAll('.add-product')
-    .forEach(button => {
-      button.style.display =
-        isOwner ? '' : 'none';
-    });
-
-  const saveButton =
-    document.getElementById('save');
-
-  if (saveButton) {
-    saveButton.style.display =
-      isOwner ? '' : 'none';
-  }
+  addButtons.forEach((button) => {
+    button.style.display = isOwner ? "" : "none";
+  });
 }
+
+/*
+  This is only the visual restriction.
+
+  The REAL protection must come from your Supabase
+  Row Level Security policies, so another user cannot
+  bypass the hidden button.
+*/
 
 function requireOwner() {
   if (!currentUser) {
