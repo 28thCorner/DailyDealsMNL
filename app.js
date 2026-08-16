@@ -674,7 +674,7 @@ function dashboard() {
         >
           Discover Now
         </button>
-        <img src="new_shoes.jpg">
+        <img src="new_arrivals.jpg" alt="New Arrivals">
       </div>
     </div>
 
